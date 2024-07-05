@@ -15,4 +15,13 @@ router.get("/", async function (req, res, next) {
 });
 // router.get("/", llm);
 
+router.get("/test-cookie", (req, res) => {
+  const cookies = req.cookies;
+  console.log("Cookies: ", cookies);
+  const token = req.cookies.token;
+  console.log("Token: ", token);
+
+  res.status(200).send({ message: "Cookie values logged on server" });
+});
+
 module.exports = router;
