@@ -35,19 +35,17 @@ router.post("/login", async (req, res, next) => {
           if (result) {
             // console.log(result);
             const token = uath.makeToken(userInfo);
-            // res.cookie("token", token, {
-            //   httpOnly: true,
-            //   secure: true,
-            //   sameSite: "strict", // 이 옵션은 CSRF 공격을 방지하는 데 도움을 줍니다.
-            //   maxAge: 24 * 60 * 60 * 1000, // 쿠키의 만료 시간 (예: 24시간)
-            // });
-            res
-              .status(200)
-              .send({
-                result: "로그인 성공!",
-                name: userInfo[0].name,
-                token: token,
-              });
+            res.cookie("token", token, {
+              httpOnly: true,
+              secure: true,
+              sameSite: "strict", // 이 옵션은 CSRF 공격을 방지하는 데 도움을 줍니다.
+              maxAge: 24 * 60 * 60 * 1000, // 쿠키의 만료 시간 (예: 24시간)
+            });
+            res.status(200).send({
+              result: "로그인 성공!",
+              name: userInfo[0].name,
+              token: token,
+            });
             return;
           } else {
             res.status(400).send({ result: "이메일 혹은 비밀번호 오류" });
