@@ -43,3 +43,7 @@ jobs:
 
       - name: docker up
         run: docker compose up -d --build
+
+      - name: remove .env file
+        run: rm .env
+        continue-on-error: true
