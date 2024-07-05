@@ -9,6 +9,10 @@ const uath = require("../auth");
 // 데이터 조회
 // router.post("/", uath.checkAuth, async (req, res, next) => {
 router.get("/", async (req, res, next) => {
+  const cookei = req.cookies;
+  console.log(cookei);
+  const token = req.cookies.token;
+  console.log(token);
   if (req.body == undefined) {
     res.status(500).send({ error: "not found req.body" });
   } else {
