@@ -16,10 +16,6 @@ jobs:
     runs-on: Linux
     environment: JUNGLE_SECRET
     if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/backend'
-    defaults:
-      run:
-        working-directory: ./express-server
-
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
