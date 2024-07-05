@@ -1,13 +1,13 @@
+require("dotenv").config();
 var mysql = require("mysql2");
 
 var connection = mysql.createConnection({
   // host: "localhost",
   // host: "host.docker.internal",
-  host: "sql-db",
-  // host: "ec2-3-38-176-179.ap-northeast-2.compute.amazonaws.com",
-  user: "root",
+  host: process.env.MYSQL_HOST,
   port: 3306,
-  password: "1234",
+  user: process.env.MYSQL_USER,
+  password: process.env.MYSQL_PASSWORD,
   database: "jungle",
   // dateStrings: "date",
 });
