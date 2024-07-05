@@ -21,6 +21,7 @@ router.get("/test-cookie", (req, res) => {
   const token = req.cookies.token;
   console.log("Token: ", token);
   var visitors = req.cookies.visitors || 0;
+  console.log("visitors:", visitors);
   visitors++;
   res.cookie("visitors", visitors, {
     httpOnly: true,
