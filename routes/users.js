@@ -38,7 +38,7 @@ router.post("/login", async (req, res, next) => {
             res.cookie("token", token, {
               httpOnly: true,
               secure: true,
-              sameSite: "strict", // 이 옵션은 CSRF 공격을 방지하는 데 도움을 줍니다.
+              sameSite: "None", // 이 옵션은 CSRF 공격을 방지하는 데 도움을 줍니다.
               maxAge: 24 * 60 * 60 * 1000, // 쿠키의 만료 시간 (예: 24시간)
             });
             res.status(200).send({
