@@ -15,7 +15,6 @@ jobs:
     name: Backend CI/CD
     runs-on: Linux
     environment: JUNGLE_SECRET
-    if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/backend'
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
