@@ -44,6 +44,7 @@ router.post("/login", async (req, res, next) => {
             res.status(200).send({
               result: "로그인 성공!",
               name: userInfo[0].name,
+              token: token,
             });
             return;
           } else {
