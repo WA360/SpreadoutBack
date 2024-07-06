@@ -32,8 +32,19 @@ function readPdfUrl(params) {
   });
 }
 
+function readPdfNode(params) {
+  let sql = `select * from api_chapter ac where ac.pdf_file_id =?;`;
+  return new Promise((resolve, reject) => {
+    conn.query(sql, params, (err, rows, fields) => {
+      if (err) reject(err);
+      resolve(rows);
+    });
+  });
+}
+
 module.exports = {
   insertPdfInfo,
   readPdfInfo,
   readPdfUrl,
+  readPdfNode,
 };

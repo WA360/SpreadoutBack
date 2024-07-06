@@ -9,15 +9,11 @@ const uath = require("../auth");
 // 데이터 조회
 // router.post("/", uath.checkAuth, async (req, res, next) => {
 router.get("/", async (req, res, next) => {
-  const cookei = req.cookies;
-  console.log(cookei);
-  const token = req.cookies.token;
-  console.log(token);
   if (req.body == undefined) {
     res.status(500).send({ error: "not found req.body" });
   } else {
     const params = [req.query.pdfId];
-
+    let node = await fileDTO.readPdfNode(params);
     let connection = await fileDTO.readPdfInfo(params);
     let url = await fileDTO.readPdfUrl(params);
     // console.log("connection: ", connection);
@@ -28,6 +24,7 @@ router.get("/", async (req, res, next) => {
     }
     let result = {
       url: url[0].url,
+      node: node,
       connection: connection,
     };
     res.status(200).send(result);
