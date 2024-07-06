@@ -172,7 +172,7 @@ router.get("/login", async (req, res, next) => {
   }
 });
 
-router.get("/test", uath.checkAuth, async (req, res, next) => {
+router.get("/test", async (req, res, next) => {
   console.log("");
   const authHeader = req.headers.authorization;
   console.log("헤더 : ", authHeader);
