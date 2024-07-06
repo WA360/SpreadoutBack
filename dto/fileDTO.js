@@ -42,9 +42,20 @@ function readPdfNode(params) {
   });
 }
 
+function readPdfListFromUser(params) {
+  let sql = `select * from api_pdffile ap where ap.user_id =?;`;
+  return new Promise((resolve, reject) => {
+    conn.query(sql, params, (err, rows, fields) => {
+      if (err) reject(err);
+      resolve(rows);
+    });
+  });
+}
+
 module.exports = {
   insertPdfInfo,
   readPdfInfo,
   readPdfUrl,
   readPdfNode,
+  readPdfListFromUser,
 };

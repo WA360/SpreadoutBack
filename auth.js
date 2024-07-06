@@ -24,7 +24,11 @@ function checkAuth(req, res, next) {
 }
 
 function makeToken(tokenInfo) {
-  const payload = { userName: tokenInfo[0].name, userId: tokenInfo[0].email };
+  const payload = {
+    userName: tokenInfo[0].name,
+    userId: tokenInfo[0].id,
+    uuid: tokenInfo[0].uuid,
+  };
   return (token = jwt.sign(payload, process.env.ACCESS_TOKEN_SECRET, {
     expiresIn: "15m",
   }));

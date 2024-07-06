@@ -9,7 +9,7 @@ const uath = require("../auth");
 // 데이터 조회
 // router.post("/", uath.checkAuth, async (req, res, next) => {
 router.get("/", async (req, res, next) => {
-  if (req.body == undefined) {
+  if (req.query == undefined) {
     res.status(500).send({ error: "not found req.body" });
   } else {
     const params = [req.query.pdfId];
@@ -26,6 +26,25 @@ router.get("/", async (req, res, next) => {
       url: url[0].url,
       node: node,
       connection: connection,
+    };
+    res.status(200).send(result);
+  }
+});
+
+// pdf 목록 조회
+router.get("/list", uath.checkAuth, async (req, res, next) => {
+  if (req.query == undefined) {
+    res.status(500).send({ error: "not found req.body" });
+  } else {
+    console.log(req.user);
+    const params = [req.user.uuid];
+    let node = await fileDTO.readPdfListFromUser(params);
+    // if (!url.length > 0) {
+    //   res.status(400).send({ result: "해당 번호 결과 없음" });
+    //   return;
+    // }
+    let result = {
+      user: node,
     };
     res.status(200).send(result);
   }
