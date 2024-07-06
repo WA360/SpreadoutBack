@@ -2,10 +2,16 @@ require("dotenv").config();
 const jwt = require("jsonwebtoken");
 
 function checkAuth(req, res, next) {
-  const token = req.cookies.token;
-  console.log(token);
+  let token = req.headers.token;
+  if (!token) {
+    console.log("포스트맨 요청");
+    // console.log(req.cookies);
+    token = req.cookies.token;
+  }
+  // console.log("ht: ", token);
   if (!token) {
     return res.status(401).send("인증 토큰이 없습니다.");
+    z;
   }
 
   try {
