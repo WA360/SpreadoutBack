@@ -94,7 +94,7 @@ let test = async () => {
 router.post("/chatbot", async function (req, res) {
   const model = new Bedrock({
     model: llmModel, // You can also do e.g. "anthropic.claude-v2"
-    region: process.env.BEDROCK_AWS_REGION,
+    region: process.env.AWS_REGION,
     // endpointUrl: "custom.amazonaws.com",
     credentials: {
       accessKeyId: process.env.BEDROCK_ACCESS_KEY,
