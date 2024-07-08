@@ -2,6 +2,8 @@ require("dotenv").config();
 const jwt = require("jsonwebtoken");
 
 function checkAuth(req, res, next) {
+  console.log("req.headers: " + req.headers);
+  console.log("req.headers.token: " + req.headers.token);
   let token = req.headers.token;
   if (!token) {
     console.log("포스트맨 요청");
