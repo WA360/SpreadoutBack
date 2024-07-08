@@ -14,53 +14,53 @@ const { TextLoader } = require("langchain/document_loaders/fs/text");
 
 const llmModel = "meta.llama3-8b-instruct-v1:0";
 const emModel = "amazon.titan-embed-text-v2:0";
-let test = async () => {
-  // //   1. s3로 부터 파일 읽어오기
-  //     const loader = new S3Loader({
-  //       bucket: "jungle-bucket",
-  //       key: "image2.pdf",
-  //       s3Config: {
-  //         region: process.env.AWS_REGION,
-  //         credentials: {
-  //           accessKeyId: process.env.S3_ACCESS_KEY,
-  //           secretAccessKey: process.env.S3_SECRET_ACCESS_KEY,
-  //         },
-  //       },
-  //       // unstructuredAPIURL: "http://localhost:8000/general/v0/general",
-  //       // unstructuredAPIKey: "", // this will be soon required
-  //     });
-  //     const docs = await loader.load();
-  //     console.log(docs);
-  // 파일 직접 로딩
-  const loader = new PDFLoader(
-    "./ai/c10.pdf"
-    //     , {
-    //     splitPages: false,
-    //   }
-  );
-  const docs = await loader.load();
-  //   console.log(docs);
-  //   // 모델 임베딩?
-  const embeddings = new BedrockEmbeddings({
-    region: process.env.BEDROCK_AWS_REGION,
-    credentials: {
-      accessKeyId: process.env.BEDROCK_ACCESS_KEY,
-      secretAccessKey: process.env.BEDROCK_SECRET_ACCESS_KEY,
-    },
-    model: emModel,
-  });
-  // Create vector store and index the docs
-  const vectorStore = await Chroma.fromDocuments(docs, embeddings, {
-    collectionName: "pdf-test",
-    url: "http://localhost:8000", // Optional, will default to this value
-    // collectionMetadata: {
-    //   "hnsw:space": "cosine",
-    // }, // Optional, can be used to specify the distance method of the embedding space https://docs.trychroma.com/usage-guide#changing-the-distance-function
-  });
-  // Search for the most similar document
-  const response = await vectorStore.similaritySearch("rio", 1);
-  console.log(response);
-};
+// let test = async () => {
+//   // //   1. s3로 부터 파일 읽어오기
+//   //     const loader = new S3Loader({
+//   //       bucket: "jungle-bucket",
+//   //       key: "image2.pdf",
+//   //       s3Config: {
+//   //         region: process.env.AWS_REGION,
+//   //         credentials: {
+//   //           accessKeyId: process.env.S3_ACCESS_KEY,
+//   //           secretAccessKey: process.env.S3_SECRET_ACCESS_KEY,
+//   //         },
+//   //       },
+//   //       // unstructuredAPIURL: "http://localhost:8000/general/v0/general",
+//   //       // unstructuredAPIKey: "", // this will be soon required
+//   //     });
+//   //     const docs = await loader.load();
+//   //     console.log(docs);
+//   // 파일 직접 로딩
+//   const loader = new PDFLoader(
+//     "./ai/c10.pdf"
+//     //     , {
+//     //     splitPages: false,
+//     //   }
+//   );
+//   const docs = await loader.load();
+//   //   console.log(docs);
+//   //   // 모델 임베딩?
+//   const embeddings = new BedrockEmbeddings({
+//     region: process.env.BEDROCK_AWS_REGION,
+//     credentials: {
+//       accessKeyId: process.env.BEDROCK_ACCESS_KEY,
+//       secretAccessKey: process.env.BEDROCK_SECRET_ACCESS_KEY,
+//     },
+//     model: emModel,
+//   });
+//   // Create vector store and index the docs
+//   const vectorStore = await Chroma.fromDocuments(docs, embeddings, {
+//     collectionName: "pdf-test",
+//     url: "http://localhost:8000", // Optional, will default to this value
+//     // collectionMetadata: {
+//     //   "hnsw:space": "cosine",
+//     // }, // Optional, can be used to specify the distance method of the embedding space https://docs.trychroma.com/usage-guide#changing-the-distance-function
+//   });
+//   // Search for the most similar document
+//   const response = await vectorStore.similaritySearch("rio", 1);
+//   console.log(response);
+// };
 
 // test();
 // /*
