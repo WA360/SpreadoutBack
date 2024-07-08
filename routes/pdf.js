@@ -40,11 +40,11 @@ router.get("/list", uath.checkAuth, async (req, res, next) => {
     console.log(req.user);
     const params = [req.user.uuid];
     // const params = [req.query.userNO];
-    // let node = await fileDTO.readPdfListFromUser(params);
-    // if (!url.length > 0) {
-    //   res.status(400).send({ result: "해당 번호 결과 없음" });
-    //   return;
-    // }
+    let node = await fileDTO.readPdfListFromUser(params);
+    if (!url.length > 0) {
+      res.status(400).send({ result: "해당 번호 결과 없음" });
+      return;
+    }
     let result = {
       user: node,
     };
