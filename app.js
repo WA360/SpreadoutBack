@@ -37,7 +37,6 @@ app.use("/", indexRouter);
 app.use("/users", usersRouter);
 app.use("/pdf", pdfRouter);
 app.use("/llm", aiRouter);
-// app.use("/llm", llm);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
