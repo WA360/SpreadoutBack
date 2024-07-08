@@ -11,6 +11,8 @@ var usersRouter = require("./routes/users");
 var pdfRouter = require("./routes/pdf");
 var aiRouter = require("./ai/langchan");
 
+var llm = require("./ai/llm");
+
 var app = express();
 
 // view engine setup
@@ -35,6 +37,7 @@ app.use("/", indexRouter);
 app.use("/users", usersRouter);
 app.use("/pdf", pdfRouter);
 app.use("/llm", aiRouter);
+// app.use("/llm", llm);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

@@ -12,20 +12,20 @@ const {
 async function llm(req, res) {
   // Create a Bedrock Runtime client in the AWS Region of your choice.
   const client = new BedrockRuntimeClient({
-    region: "us-east-1",
+    region: process.env.BEDROCK_AWS_REGION,
     credentials: {
-      accessKeyId: process.env.BEDROCK_ACCESS_KEY ?? "",
-      secretAccessKey: process.env.BEDROCK_SECRET_ACCESS_KEY ?? "",
+      accessKeyId: process.env.BEDROCK_ACCESS_KEY,
+      secretAccessKey: process.env.BEDROCK_SECRET_ACCESS_KEY,
     },
   });
 
   // Set the model ID, e.g., Llama 3 8B Instruct.
-  const modelId = "meta.llama3-8b-instruct-v1:0";
+  const modelId = "meta.llama3-70b-instruct-v1:0";
 
   // Define the user message to send.
   // const userMessage =
   //   "Describe the purpose of a 'hello world' program in one sentence.";
-  const userMessage = "프로세스에 대해서 설명해줘";
+  const userMessage = "한국에 대해서 설명해줘";
 
   // Embed the message in Llama 3's prompt format.
   const prompt = `

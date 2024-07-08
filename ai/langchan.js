@@ -1,18 +1,19 @@
 require("dotenv").config();
 var express = require("express");
 var router = express.Router();
-const { Bedrock } = require("@langchain/community/llms/bedrock");
-const { S3Loader } = require("@langchain/community/document_loaders/web/s3");
-const { PDFLoader } = require("@langchain/community/document_loaders/fs/pdf");
-const { BedrockRuntimeClient } = require("@aws-sdk/client-bedrock-runtime");
-const {
-  BedrockEmbeddings,
-} = require("@langchain/community/embeddings/bedrock");
-const { Chroma } = require("@langchain/community/vectorstores/chroma");
-const { OpenAIEmbeddings } = require("@langchain/openai");
-const { TextLoader } = require("langchain/document_loaders/fs/text");
-
-const llmModel = "meta.llama3-8b-instruct-v1:0";
+// const { Bedrock } = require("@langchain/community/llms/bedrock");
+// const { S3Loader } = require("@langchain/community/document_loaders/web/s3");
+// const { PDFLoader } = require("@langchain/community/document_loaders/fs/pdf");
+// const { BedrockRuntimeClient } = require("@aws-sdk/client-bedrock-runtime");
+// const {
+//   BedrockEmbeddings,
+// } = require("@langchain/community/embeddings/bedrock");
+// const { Chroma } = require("@langchain/community/vectorstores/chroma");
+// const { OpenAIEmbeddings } = require("@langchain/openai");
+// const { TextLoader } = require("langchain/document_loaders/fs/text");
+const { BedrockChat } = require("@langchain/community/chat_models/bedrock");
+const { HumanMessage } = require("@langchain/core/messages");
+const llmModel = "meta.llama3-70b-instruct-v1:0";
 const emModel = "amazon.titan-embed-text-v2:0";
 // let test = async () => {
 //   // //   1. s3로 부터 파일 읽어오기
@@ -92,22 +93,33 @@ const emModel = "amazon.titan-embed-text-v2:0";
 // }
 
 router.post("/chatbot", async function (req, res) {
-  const model = new Bedrock({
+  const model = new BedrockChat({
     model: llmModel, // You can also do e.g. "anthropic.claude-v2"
-    region: process.env.AWS_REGION,
-    // endpointUrl: "custom.amazonaws.com",
+    region: process.env.BEDROCK_AWS_REGION,
     credentials: {
       accessKeyId: process.env.BEDROCK_ACCESS_KEY,
       secretAccessKey: process.env.BEDROCK_SECRET_ACCESS_KEY,
     },
-    // modelKwargs: {},
+    maxTokens: 512,
+    temperature: 0.7,
+    // stopSequences: ["\n", " Human:", " Assistant:"],
+    // streaming: false,
+    // trace: "ENABLED",
+    // guardrailIdentifier: "your-guardrail-id",
+    // guardrailVersion: "1.0",
+    // guardrailConfig: {
+    //   tagSuffix: "example",
+    //   streamProcessingMode: "SYNCHRONOUS",
+    // },
   });
-  const question = req.body.question;
-  const respon = await model.invoke(question);
-  console.log(respon);
+
+  // Prepare the message to be sent to the model
+  const message = new HumanMessage(req.body.question);
+  // Invoke the model with the message
+  const respon = await model.invoke([message]);
   let result = {
-    question: question,
-    respon: respon,
+    question: req.body.question,
+    respon: respon.kwargs.content,
   };
   res.status(200).send({ result: result });
 });
