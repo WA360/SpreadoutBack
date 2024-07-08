@@ -32,12 +32,14 @@ router.get("/", async (req, res, next) => {
 });
 
 // pdf 목록 조회
-router.get("/list", uath.checkAuth, async (req, res, next) => {
+// router.get("/list", uath.checkAuth, async (req, res, next) => {
+router.get("/list", async (req, res, next) => {
   if (req.query == undefined) {
     res.status(500).send({ error: "not found req.body" });
   } else {
-    console.log(req.user);
-    const params = [req.user.uuid];
+    // console.log(req.user);
+    // const params = [req.user.uuid];
+    const params = [req.query.uuid];
     let node = await fileDTO.readPdfListFromUser(params);
     // if (!url.length > 0) {
     //   res.status(400).send({ result: "해당 번호 결과 없음" });
