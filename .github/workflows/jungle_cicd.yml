@@ -35,7 +35,7 @@ jobs:
           echo "MYSQL_PASSWORD=${{ secrets.MYSQL_PASSWORD }}" >> .env 
           echo "MYSQL_USER=${{ secrets.MYSQL_USER }}" >> .env 
           echo "MYSQL_HOST=${{ vars.MYSQL_HOST }}" >> .env 
-          echo "AWS_REGION=${{ vars.AWS_REGION }}" >> .env 
+          echo "BEDROCK_AWS_REGION=${{ vars.BEDROCK_AWS_REGION }}" >> .env 
           cat .env
 
       - name: docker Down
