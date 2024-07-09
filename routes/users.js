@@ -65,7 +65,7 @@ router.post("/login", async (req, res, next) => {
 });
 
 // 회원가입
-router.post("/signin", (req, res, next) => {
+router.post("/signup", (req, res, next) => {
   // const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   // if (!emailPattern.test(req.body.email)) {
   //   return res.status(400).send({ error: "Invalid email format" });
@@ -105,7 +105,7 @@ router.post("/signin", (req, res, next) => {
 });
 
 // 아이디 중복 체크
-router.get("/signin/checkid", async (req, res, next) => {
+router.get("/signup/checkid", async (req, res, next) => {
   try {
     let params = [req.query.id];
     var userInfo = await userDTO.checkUserId(params);
