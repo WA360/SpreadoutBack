@@ -60,7 +60,7 @@ async function llm(req, res) {
   const prompt = `${koreanPrompt}\n\n인간: ${userInput}\n\n친구:`;
 
   // Set the model ID, e.g., Llama 3 8B Instruct.
-  const modelId = "meta.llama3-70b-instruct-v1:0";
+  const modelId = "anthropic.claude-3-haiku-20240307-v1:0";
 
   // Define the user message to send.
   // const userMessage =
@@ -77,14 +77,28 @@ async function llm(req, res) {
   // `;
 
   // Format the request payload using the model's native structure.
+  // const request = {
+  //   prompt,
+  //   // Optional inference parameters:
+  //   max_gen_len: 2048,
+  //   temperature: 0.9,
+  //   top_p: 0.9,
+  // };
   const request = {
-    prompt,
-    // Optional inference parameters:
-    max_gen_len: 2048,
-    temperature: 0.9,
-    top_p: 0.9,
+    anthropic_version: "bedrock-2023-05-31",
+    max_tokens: 10000,
+    messages: [
+      {
+        role: "user",
+        content: [
+          {
+            type: "text",
+            text: prompt,
+          },
+        ],
+      },
+    ],
   };
-
   // Encode and send the request.
   const response = await client.send(
     new InvokeModelCommand({
@@ -99,7 +113,8 @@ async function llm(req, res) {
   const nativeResponse = JSON.parse(new TextDecoder().decode(response.body));
 
   // Extract and print the generated text.
-  const responseText = nativeResponse.generation;
+  // const responseText = nativeResponse.generation;
+  const responseText = nativeResponse.content[0].text;
   console.log(responseText);
   res.send({
     response: responseText,
