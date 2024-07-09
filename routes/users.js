@@ -14,6 +14,17 @@ router.get("/", uath.checkAuth, async (req, res, next) => {
   }
 });
 
+// uuid 주기
+router.get("/uuid", uath.checkAuth, async (req, res, next) => {
+  var users = req.user;
+  console.log(users);
+  if (users != undefined) {
+    res.status(200).send({ uuid: users.uuid });
+  } else {
+    res.status(400).send("not found");
+  }
+});
+
 // 로그인
 router.post("/login", async (req, res, next) => {
   try {
