@@ -121,7 +121,7 @@ router.get("/signup/checkid", async (req, res, next) => {
     let params = [req.query.id];
     var userInfo = await userDTO.checkUserId(params);
     if (userInfo.length > 0) {
-      res.status(409).send({ result: "아이디 중복임" });
+      res.status(200).send({ result: "아이디 중복임" });
     } else {
       res.status(200).send({ result: "아이디 중복 아님" });
     }
