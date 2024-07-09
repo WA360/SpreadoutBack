@@ -56,7 +56,7 @@ async function llm(req, res) {
   const userInput = req.body.question;
 
   // 프롬프트와 사용자 입력 결합
-  const prompt = `${koreanPrompt}\n\n인간: ${userInput}\n\n`;
+  const prompt = `${koreanPrompt}\n\n인간: ${userInput}\n\n친구:`;
 
   // Set the model ID, e.g., Llama 3 8B Instruct.
   const modelId = "meta.llama3-70b-instruct-v1:0";
