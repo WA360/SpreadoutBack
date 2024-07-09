@@ -93,39 +93,39 @@ const emModel = "amazon.titan-embed-text-v2:0";
 //   res.status(200).send({ result: result });
 // }
 
+// router.post("/chatbot", async function (req, res) {
+//   const model = new BedrockChat({
+//     model: llmModel, // You can also do e.g. "anthropic.claude-v2"
+//     region: process.env.BEDROCK_AWS_REGION,
+//     credentials: {
+//       accessKeyId: process.env.BEDROCK_ACCESS_KEY,
+//       secretAccessKey: process.env.BEDROCK_SECRET_ACCESS_KEY,
+//     },
+//     maxTokens: 2048,
+//     temperature: 0.9,
+//     // stopSequences: ["\n", " Human:", " Assistant:"],
+//     // streaming: false,
+//     // trace: "ENABLED",
+//     // guardrailIdentifier: "your-guardrail-id",
+//     // guardrailVersion: "1.0",
+//     // guardrailConfig: {
+//     //   tagSuffix: "example",
+//     //   streamProcessingMode: "SYNCHRONOUS",
+//     // },
+//   });
+
+//   // Prepare the message to be sent to the model
+//   let ttt = `You are LLaMA3, a state-of-the-art large language model. Your role is to provide accurate and helpful responses to user queries. Follow these guidelines to perform at your best:Always prioritize accuracy. Do not provide information you're not certain about.Structure your responses logically and coherently.Explain complex concepts in simple terms, but use technical terminology when appropriate.Provide information directly relevant to the user's question.Offer ethical and unbiased responses.Ask for additional information or clarification when necessary.For mathematical or scientific problems, show your step-by-step reasoning.For creative tasks, present original and engaging ideas.Provide all responses in English.If the user asks for responses in Korean, switch to Korean for that specific response.Follow these guidelines to provide the best assistance to the user. If you're ready, respond with "Understood. I'm ready to assist you in English."`;
+//   const message = new HumanMessage(ttt + req.body.question);
+//   // Invoke the model with the message
+//   const respon = await model.invoke([message]);
+//   let result = {
+//     question: req.body.question,
+//     respon: respon,
+//   };
+//   res.status(200).send({ result: result });
+// });
+
 router.post("/", llm);
-
-router.post("/chatbot", async function (req, res) {
-  const model = new BedrockChat({
-    model: llmModel, // You can also do e.g. "anthropic.claude-v2"
-    region: process.env.BEDROCK_AWS_REGION,
-    credentials: {
-      accessKeyId: process.env.BEDROCK_ACCESS_KEY,
-      secretAccessKey: process.env.BEDROCK_SECRET_ACCESS_KEY,
-    },
-    maxTokens: 2048,
-    temperature: 0.9,
-    // stopSequences: ["\n", " Human:", " Assistant:"],
-    // streaming: false,
-    // trace: "ENABLED",
-    // guardrailIdentifier: "your-guardrail-id",
-    // guardrailVersion: "1.0",
-    // guardrailConfig: {
-    //   tagSuffix: "example",
-    //   streamProcessingMode: "SYNCHRONOUS",
-    // },
-  });
-
-  // Prepare the message to be sent to the model
-  let ttt = `You are LLaMA3, a state-of-the-art large language model. Your role is to provide accurate and helpful responses to user queries. Follow these guidelines to perform at your best:Always prioritize accuracy. Do not provide information you're not certain about.Structure your responses logically and coherently.Explain complex concepts in simple terms, but use technical terminology when appropriate.Provide information directly relevant to the user's question.Offer ethical and unbiased responses.Ask for additional information or clarification when necessary.For mathematical or scientific problems, show your step-by-step reasoning.For creative tasks, present original and engaging ideas.Provide all responses in English.If the user asks for responses in Korean, switch to Korean for that specific response.Follow these guidelines to provide the best assistance to the user. If you're ready, respond with "Understood. I'm ready to assist you in English."`;
-  const message = new HumanMessage(ttt + req.body.question);
-  // Invoke the model with the message
-  const respon = await model.invoke([message]);
-  let result = {
-    question: req.body.question,
-    respon: respon,
-  };
-  res.status(200).send({ result: result });
-});
 
 module.exports = router;
