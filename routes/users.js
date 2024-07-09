@@ -95,7 +95,7 @@ router.post("/signup", (req, res, next) => {
         if (result != null) {
           res.status(200).send({ result: "가입 성공" });
         } else {
-          res.status(401).send({ error: "Authentication failed" });
+          res.status(200).send({ error: "Authentication failed" });
         }
       } catch (err) {
         if (err.code === "ER_DUP_ENTRY") {
@@ -121,9 +121,9 @@ router.get("/signup/checkid", async (req, res, next) => {
     let params = [req.query.id];
     var userInfo = await userDTO.checkUserId(params);
     if (userInfo.length > 0) {
-      res.status(200).send({ result: "아이디 중복임" });
+      res.status(200).send({ result: true });
     } else {
-      res.status(200).send({ result: "아이디 중복 아님" });
+      res.status(200).send({ result: false });
     }
   } catch (error) {
     res
