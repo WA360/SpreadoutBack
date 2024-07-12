@@ -35,8 +35,8 @@ router.get("/", async (req, res, next) => {
     res.status(500).send({ error: "not found req.body" });
   } else {
     const params = [req.query.pdfId];
-    let node = await fileDTO.readPdfNode(params);
-    let connection = await fileDTO.readPdfInfo(params);
+    let nodes = await fileDTO.readPdfNode(params);
+    let links = await fileDTO.readPdfInfo(params);
     let url = await fileDTO.readPdfUrl(params);
     // console.log("connection: ", connection);
     // console.log("url: ", url);
@@ -46,8 +46,8 @@ router.get("/", async (req, res, next) => {
     }
     let result = {
       url: url[0].url,
-      node: node,
-      connection: connection,
+      nodes: nodes,
+      links: links,
     };
     res.status(200).send(result);
   }
