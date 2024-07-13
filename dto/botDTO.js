@@ -10,8 +10,28 @@ async function createNewSession(params) {
   }
 }
 
+async function selectSession(params) {
+  let sql = `select * from api_session as2 where as2.user_id =?;`;
+  try {
+    const [rows, fields] = await connection.query(sql, params);
+    return rows;
+  } catch (error) {
+    throw error;
+  }
+}
+
 async function createNewMessage(params) {
   let sql = `insert into api_message (sender, content, created_at, session_id) values(?,?,NOW(),?);`;
+  try {
+    const [rows, fields] = await connection.query(sql, params);
+    return rows;
+  } catch (error) {
+    throw error;
+  }
+}
+
+async function selectMessage(params) {
+  let sql = `select * from api_message am where am.session_id =?;`;
   try {
     const [rows, fields] = await connection.query(sql, params);
     return rows;
@@ -44,6 +64,8 @@ async function deleteChat(params) {
 
 module.exports = {
   createNewSession,
+  selectSession,
   createNewMessage,
+  selectMessage,
   deleteChat,
 };
