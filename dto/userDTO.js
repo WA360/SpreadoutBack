@@ -1,62 +1,43 @@
-// const db = require("../db/db");
-// const conn = db.connection;
-
 const connection = require("../db/db");
 
-function login(params) {
+async function login(params) {
   let sql = `select au.id as uuid ,au.username as id , au.password,au.first_name as name from auth_user au where au.username = ?;`;
-  return new Promise((resolve, reject) => {
-    connection((conn) => {
-      conn.query(sql, params, (err, rows, fields) => {
-        if (err) reject(err);
-        resolve(rows);
-      });
-      conn.release();
-    });
-  });
+  try {
+    const [rows, fields] = await connection.query(sql, params);
+    return rows;
+  } catch (error) {
+    throw error;
+  }
 }
 
-function signin(params) {
+async function signin(params) {
   let sql = `insert into auth_user (username,password,first_name) values (?,?,?)`;
-  return new Promise((resolve, reject) => {
-    connection((conn) => {
-      conn.query(sql, params, (err, rows, fields) => {
-        if (err) {
-          console.log("에러남11");
-          reject(err);
-        } else {
-          resolve(rows);
-        }
-      });
-      conn.release();
-    });
-  });
+  try {
+    const [rows, fields] = await connection.query(sql, params);
+    return rows;
+  } catch (error) {
+    throw error;
+  }
 }
 
-function getAllUser() {
+async function getAllUser() {
   let sql = `select au.username from auth_user au;`;
-  return new Promise((resolve, reject) => {
-    connection((conn) => {
-      conn.query(sql, (err, rows, fields) => {
-        if (err) reject(err);
-        resolve(rows);
-      });
-      conn.release();
-    });
-  });
+  try {
+    const [rows, fields] = await connection.query(sql);
+    return rows;
+  } catch (error) {
+    throw error;
+  }
 }
 
-function checkUserId(params) {
+async function checkUserId(params) {
   let sql = `select au.username from auth_user au where au.username = ?`;
-  return new Promise((resolve, reject) => {
-    connection((conn) => {
-      conn.query(sql, params, (err, rows, fields) => {
-        if (err) reject(err);
-        resolve(rows);
-      });
-      conn.release();
-    });
-  });
+  try {
+    const [rows, fields] = await connection.query(sql, params);
+    return rows;
+  } catch (error) {
+    throw error;
+  }
 }
 
 module.exports = {

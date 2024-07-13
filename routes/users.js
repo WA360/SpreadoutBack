@@ -77,10 +77,6 @@ router.post("/login", async (req, res, next) => {
 
 // 회원가입
 router.post("/signup", (req, res, next) => {
-  // const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  // if (!emailPattern.test(req.body.email)) {
-  //   return res.status(400).send({ error: "Invalid email format" });
-  // }
   try {
     bcrypt.hash(req.body.password, saltRounds, async function (err, hash) {
       if (err) {
@@ -91,7 +87,7 @@ router.post("/signup", (req, res, next) => {
       let params = [req.body.id, hash, req.body.name];
       try {
         let result = await userDTO.signin(params);
-        console.log("결과결과: ", result);
+        console.log(result);
         if (result != null) {
           res.status(200).send({ result: "가입 성공" });
         } else {
