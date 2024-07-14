@@ -10,8 +10,27 @@ async function createNewSession(params) {
   }
 }
 
+async function createNewSessionLinks(params) {
+  let sql = `insert into api_sessionconnection (similarity, source, target, pdf_file_id) values	(1,?,?,(select ac.pdf_file_id from api_chapter ac where ac.id = ?));`;
+  try {
+    const [rows, fields] = await connection.query(sql, params);
+    return rows;
+  } catch (error) {
+    throw error;
+  }
+}
+
 async function selectSession(params) {
-  let sql = `select * from api_session as2 where as2.user_id =?;`;
+  let sql = `select as2.id, as2.chapter_id,ac.group,as2.user_id from api_session as2 join api_chapter ac on as2.chapter_id =ac.id where ac.pdf_file_id =?;`;
+  try {
+    const [rows, fields] = await connection.query(sql, params);
+    return rows;
+  } catch (error) {
+    throw error;
+  }
+}
+async function selectSessionLinks(params) {
+  let sql = `select * from api_sessionconnection as2 where as2.pdf_file_id =?;`;
   try {
     const [rows, fields] = await connection.query(sql, params);
     return rows;
@@ -20,8 +39,8 @@ async function selectSession(params) {
   }
 }
 
-async function createNewMessage(params) {
-  let sql = `insert into api_message (sender, content, created_at, session_id) values(?,?,NOW(),?);`;
+async function selectSessionDetail(params) {
+  let sql = `select as2.content from api_session as2 where as2.id =?;`;
   try {
     const [rows, fields] = await connection.query(sql, params);
     return rows;
@@ -30,8 +49,8 @@ async function createNewMessage(params) {
   }
 }
 
-async function selectMessage(params) {
-  let sql = `select * from api_message am where am.session_id =?;`;
+async function updateSessionDetail(params) {
+  let sql = `UPDATE api_session as2 SET as2.content = ? where as2.id =?;`;
   try {
     const [rows, fields] = await connection.query(sql, params);
     return rows;
@@ -64,8 +83,10 @@ async function deleteChat(params) {
 
 module.exports = {
   createNewSession,
+  createNewSessionLinks,
   selectSession,
-  createNewMessage,
-  selectMessage,
+  selectSessionLinks,
+  selectSessionDetail,
+  updateSessionDetail,
   deleteChat,
 };

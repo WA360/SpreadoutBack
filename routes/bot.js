@@ -4,47 +4,35 @@ let botDTO = require("../dto/botDTO");
 const uath = require("../auth");
 
 router.post("/session", async (req, res, next) => {
-  let params = [req.body.chapterId, req.body.userId];
   try {
+    let params = [req.body.chapterId, req.body.userId];
     let result = await botDTO.createNewSession(params);
-    res.status(200).send({ message: result });
+    params = [result.insertId, req.body.chapterId, req.body.chapterId];
+    let result2 = await botDTO.createNewSessionLinks(params);
+    res.status(200).send({ sessionId: result2.insertId });
   } catch (error) {
-    res.status(500).send({ message: error });
+    res.status(501).send({ message: error });
   }
 });
 
-router.get("/session", uath.checkAuth, async (req, res, next) => {
-  let params = [req.user.uuid];
+router.get("/session/detail", uath.checkAuth, async (req, res, next) => {
+  let params = [req.query.chapterId];
   try {
-    let result = await botDTO.selectSession(params);
+    let result = await botDTO.selectSessionDetail(params);
     res.status(200).send({ message: result });
   } catch (error) {
     res.status(500).send({ message: error });
   }
 });
 
-router.post("/message", async (req, res, next) => {
-  let params = [req.body.sender, req.body.content, req.body.sessionId];
+router.put("/session/detail", uath.checkAuth, async (req, res, next) => {
+  let params = [req.body.content, req.body.chapterId];
   try {
-    let result = await botDTO.createNewMessage(params);
+    let result = await botDTO.updateSessionDetail(params);
     res.status(200).send({ message: result });
   } catch (error) {
     res.status(500).send({ message: error });
   }
-});
-
-router.get("/message", async (req, res, next) => {
-  let params = [req.query.sessionId];
-  try {
-    let result = await botDTO.selectMessage(params);
-    res.status(200).send({ message: result });
-  } catch (error) {
-    res.status(500).send({ message: error });
-  }
-});
-
-router.get("/chat", (req, res) => {
-  res.status(200).send({ message: "Cookie values logged on server" });
 });
 
 module.exports = router;

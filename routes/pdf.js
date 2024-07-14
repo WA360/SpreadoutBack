@@ -5,6 +5,7 @@ const AWS = require("aws-sdk");
 var router = express.Router();
 const userDTO = require("../dto/userDTO");
 const fileDTO = require("../dto/fileDTO");
+const botDTO = require("../dto/botDTO");
 // import imageUploader from "../aws";
 const imageUploader = require("../aws");
 const uath = require("../auth");
@@ -38,6 +39,20 @@ router.get("/", async (req, res, next) => {
     let nodes = await fileDTO.readPdfNode(params);
     let links = await fileDTO.readPdfInfo(params);
     let url = await fileDTO.readPdfUrl(params);
+    let sessions = await botDTO.selectSession(params);
+    let session_nodes = [];
+    for (let i = 0; i < sessions.length; i++) {
+      let session = {
+        id: sessions[i].id,
+        chapter_id: sessions[i].chapter_id,
+        name: "chat_" + sessions[i].id,
+        level: 10,
+        user_id: sessions[i].user_id,
+      };
+      session_nodes.push(session);
+    }
+
+    let session_links = await botDTO.selectSessionLinks(params);
     // console.log("connection: ", connection);
     // console.log("url: ", url);
     if (!url.length > 0) {
@@ -48,6 +63,8 @@ router.get("/", async (req, res, next) => {
       url: url[0].url,
       nodes: nodes,
       links: links,
+      session_nodes: session_nodes,
+      session_links: session_links,
     };
     res.status(200).send(result);
   }
@@ -69,13 +86,13 @@ router.get("/list", uath.checkAuth, async (req, res, next) => {
   }
 });
 
-// pdf 업로드 완료 체크(파이썬 서버에서 요청 받으)
-router.post("/download", uath.checkAuth, async (req, res, next) => {
-  const bucketName = process.env.AWS_BUCKET;
-  const key = req.body.file;
+// // pdf 업로드 완료 체크(파이썬 서버에서 요청 받으)
+// router.post("/download", uath.checkAuth, async (req, res, next) => {
+//   const bucketName = process.env.AWS_BUCKET;
+//   const key = req.body.file;
 
-  res.attachment(key); // 파일을 다운로드하도록 브라우저에 지시합니다.
-  downloadFile(bucketName, key, res);
-});
+//   res.attachment(key); // 파일을 다운로드하도록 브라우저에 지시합니다.
+//   downloadFile(bucketName, key, res);
+// });
 
 module.exports = router;
