@@ -86,6 +86,20 @@ router.get("/list", uath.checkAuth, async (req, res, next) => {
   }
 });
 
+router.put("/bookmark", uath.checkAuth, async (req, res, next) => {
+  if (req.query == undefined) {
+    res.status(500).send({ error: "not found req.body" });
+  } else {
+    const params = [req.query.bookmarked, req.query.chapterId];
+    let node = await fileDTO.updateBookmark(params);
+
+    let result = {
+      user: node,
+    };
+    res.status(200).send(result);
+  }
+});
+
 // // pdf 업로드 완료 체크(파이썬 서버에서 요청 받으)
 // router.post("/download", uath.checkAuth, async (req, res, next) => {
 //   const bucketName = process.env.AWS_BUCKET;
