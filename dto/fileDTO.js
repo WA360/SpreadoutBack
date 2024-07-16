@@ -71,7 +71,17 @@ async function getBookmarkConnect(params) {
 }
 
 async function updateBookmark(params) {
-  let sql = `update api_chapter ac set ac.bookmarked =? where ac.id=?;;`;
+  let sql = `update api_chapter ac set ac.bookmarked =? where ac.id=?;`;
+  try {
+    const [rows, fields] = await connection.query(sql, params);
+    return rows;
+  } catch (error) {
+    throw error;
+  }
+}
+
+async function createConnection(params) {
+  let sql = `insert into api_pageconnection(source, target, pdf_file_id, bookmarked) values(?,?,?,?);`;
   try {
     const [rows, fields] = await connection.query(sql, params);
     return rows;
@@ -89,4 +99,5 @@ module.exports = {
   getBookmark,
   updateBookmark,
   getBookmarkConnect,
+  createConnection,
 };

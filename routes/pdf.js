@@ -104,7 +104,7 @@ router.get("/bookmark", uath.checkAuth, async (req, res, next) => {
 });
 
 router.put("/bookmark", uath.checkAuth, async (req, res, next) => {
-  if (req.query == undefined) {
+  if (req.body == undefined) {
     res.status(500).send({ error: "not found req.body" });
   } else {
     const params = [req.body.bookmarked, req.body.chapterId];
@@ -113,6 +113,21 @@ router.put("/bookmark", uath.checkAuth, async (req, res, next) => {
     let result = {
       user: node,
     };
+    res.status(200).send(result);
+  }
+});
+
+router.post("/connection", uath.checkAuth, async (req, res) => {
+  if (req.body == undefined) {
+    res.status(500).send({ error: " not found req.query" });
+  } else {
+    const params = [
+      req.body.source,
+      req.body.target,
+      req.body.pdfId,
+      req.body.bookmarked,
+    ];
+    let result = await fileDTO.createConnection(params);
     res.status(200).send(result);
   }
 });
