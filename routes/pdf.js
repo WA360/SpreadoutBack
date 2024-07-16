@@ -91,10 +91,11 @@ router.get("/bookmark", uath.checkAuth, async (req, res, next) => {
     res.status(500).send({ error: "not found req.body" });
   } else {
     const params = [req.query.pdfId];
-    let node = await fileDTO.getBookmark(params);
-
+    let nodes = await fileDTO.getBookmark(params);
+    let links = await fileDTO.getBookmarkConnect(params);
     let result = {
-      user: node,
+      nodes: nodes,
+      links: links,
     };
     res.status(200).send(result);
   }
