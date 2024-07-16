@@ -50,6 +50,16 @@ async function readPdfListFromUser(params) {
   }
 }
 
+async function getBookmark(params) {
+  let sql = `select * from api_chapter ac where ac.pdf_file_id = ? and ac.bookmarked = 1;`;
+  try {
+    const [rows, fields] = await connection.query(sql, params);
+    return rows;
+  } catch (error) {
+    throw error;
+  }
+}
+
 async function updateBookmark(params) {
   let sql = `update api_chapter ac set ac.bookmarked =? where ac.id=?;;`;
   try {
@@ -66,5 +76,6 @@ module.exports = {
   readPdfUrl,
   readPdfNode,
   readPdfListFromUser,
+  getBookmark,
   updateBookmark,
 };
