@@ -86,11 +86,25 @@ router.get("/list", uath.checkAuth, async (req, res, next) => {
   }
 });
 
-router.put("/bookmark", uath.checkAuth, async (req, res, next) => {
+router.get("/bookmark", uath.checkAuth, async (req, res, next) => {
   if (req.query == undefined) {
     res.status(500).send({ error: "not found req.body" });
   } else {
     const params = [req.query.bookmarked, req.query.chapterId];
+    let node = await fileDTO.updateBookmark(params);
+
+    let result = {
+      user: node,
+    };
+    res.status(200).send(result);
+  }
+});
+
+router.put("/bookmark", uath.checkAuth, async (req, res, next) => {
+  if (req.query == undefined) {
+    res.status(500).send({ error: "not found req.body" });
+  } else {
+    const params = [req.body.bookmarked, req.body.chapterId];
     let node = await fileDTO.updateBookmark(params);
 
     let result = {
