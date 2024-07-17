@@ -117,7 +117,62 @@ router.put("/bookmark", uath.checkAuth, async (req, res, next) => {
   }
 });
 
-router.post("/connection", uath.checkAuth, async (req, res) => {
+// router.post("/connection", uath.checkAuth, async (req, res) => {
+//   if (req.body == undefined) {
+//     res.status(500).send({ error: " not found req.query" });
+//   } else {
+//     const params = [
+//       req.body.source,
+//       req.body.target,
+//       req.body.pdfId,
+//       req.body.bookmarked,
+//     ];
+//     let result = await fileDTO.createConnection(params);
+//     res.status(200).send(result);
+//   }
+// });
+
+router.get("/custom", uath.checkAuth, async (req, res, next) => {
+  if (req.query == undefined) {
+    res.status(500).send({ error: "not found req.body" });
+  } else {
+    const params = [req.query.pdfId];
+    const customparams = [req.query.pdfId, req.user.uuid];
+    let nodes = await fileDTO.readPdfNode(params);
+    let links = await fileDTO.readCustomConnection(customparams);
+    let url = await fileDTO.readPdfUrl(params);
+    let sessions = await botDTO.selectSession(params);
+    let session_nodes = [];
+    for (let i = 0; i < sessions.length; i++) {
+      let session = {
+        id: sessions[i].id,
+        chapter_id: sessions[i].chapter_id,
+        name: "chat_" + sessions[i].id,
+        level: 10,
+        user_id: sessions[i].user_id,
+      };
+      session_nodes.push(session);
+    }
+
+    let session_links = await botDTO.selectSessionLinks(params);
+    // console.log("connection: ", connection);
+    // console.log("url: ", url);
+    if (!url.length > 0) {
+      res.status(400).send({ result: "해당 번호 결과 없음" });
+      return;
+    }
+    let result = {
+      url: url[0].url,
+      nodes: nodes,
+      links: links,
+      session_nodes: session_nodes,
+      session_links: session_links,
+    };
+    res.status(200).send(result);
+  }
+});
+
+router.post("/custom/connection", uath.checkAuth, async (req, res) => {
   if (req.body == undefined) {
     res.status(500).send({ error: " not found req.query" });
   } else {
@@ -125,9 +180,9 @@ router.post("/connection", uath.checkAuth, async (req, res) => {
       req.body.source,
       req.body.target,
       req.body.pdfId,
-      req.body.bookmarked,
+      req.user.uuid,
     ];
-    let result = await fileDTO.createConnection(params);
+    let result = await fileDTO.createCustomConnection(params);
     res.status(200).send(result);
   }
 });

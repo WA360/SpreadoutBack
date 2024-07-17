@@ -90,6 +90,26 @@ async function createConnection(params) {
   }
 }
 
+async function createCustomConnection(params) {
+  let sql = `insert into api_customeconnection (source, target, pdf_file_id, user_id) values(?,?,?,?);`;
+  try {
+    const [rows, fields] = await connection.query(sql, params);
+    return rows;
+  } catch (error) {
+    throw error;
+  }
+}
+
+async function readCustomConnection(params) {
+  let sql = `select * from api_customeconnection ac where ac.pdf_file_id =? and ac.user_id = ?;`;
+  try {
+    const [rows, fields] = await connection.query(sql, params);
+    return rows;
+  } catch (error) {
+    throw error;
+  }
+}
+
 module.exports = {
   insertPdfInfo,
   readPdfInfo,
@@ -100,4 +120,6 @@ module.exports = {
   updateBookmark,
   getBookmarkConnect,
   createConnection,
+  createCustomConnection,
+  readCustomConnection,
 };
