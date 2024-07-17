@@ -136,10 +136,21 @@ router.get("/custom", uath.checkAuth, async (req, res, next) => {
   if (req.query == undefined) {
     res.status(500).send({ error: "not found req.body" });
   } else {
+    const params = [req.query.pdfId, req.user.uuid];
+    let result = await fileDTO.readCustomConnection(params);
+    console.log(result);
+    res.status(200).send(result);
+  }
+});
+
+router.get("/custom/detail", uath.checkAuth, async (req, res, next) => {
+  if (req.query == undefined) {
+    res.status(500).send({ error: "not found req.body" });
+  } else {
     const params = [req.query.pdfId];
-    const customparams = [req.query.pdfId, req.user.uuid];
+    const customparams = [req.query.pdfId, req.user.uuid, req.query.connName];
     let nodes = await fileDTO.readPdfNode(params);
-    let links = await fileDTO.readCustomConnection(customparams);
+    let links = await fileDTO.readCustomConnectionDetail(customparams);
     let url = await fileDTO.readPdfUrl(params);
     let sessions = await botDTO.selectSession(params);
     let session_nodes = [];
@@ -180,6 +191,7 @@ router.post("/custom/connection", uath.checkAuth, async (req, res) => {
       req.body.source,
       req.body.target,
       req.body.pdfId,
+      req.body.connName,
       req.user.uuid,
     ];
     let result = await fileDTO.createCustomConnection(params);

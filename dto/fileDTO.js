@@ -101,6 +101,16 @@ async function createCustomConnection(params) {
 }
 
 async function readCustomConnection(params) {
+  let sql = `select ac.name from api_customeconnection ac where ac.pdf_file_id = ? and ac.user_id = ? GROUP BY ac.name;`;
+  try {
+    const [rows, fields] = await connection.query(sql, params);
+    return rows;
+  } catch (error) {
+    throw error;
+  }
+}
+
+async function readCustomConnectionDetail(params) {
   let sql = `select * from api_customeconnection ac where ac.pdf_file_id =? and ac.user_id = ?;`;
   try {
     const [rows, fields] = await connection.query(sql, params);
@@ -122,4 +132,5 @@ module.exports = {
   createConnection,
   createCustomConnection,
   readCustomConnection,
+  readCustomConnectionDetail,
 };
