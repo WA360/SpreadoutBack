@@ -111,7 +111,7 @@ async function readCustomConnection(params) {
 }
 
 async function readCustomConnectionDetail(params) {
-  let sql = `select * from api_customeconnection ac where ac.pdf_file_id =? and ac.user_id = ?;`;
+  let sql = `select * from api_customeconnection ac where ac.pdf_file_id =? and ac.user_id = ? and ac.name =? ;`;
   try {
     const [rows, fields] = await connection.query(sql, params);
     return rows;
