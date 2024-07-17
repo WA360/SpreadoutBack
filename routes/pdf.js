@@ -117,20 +117,15 @@ router.put("/bookmark", uath.checkAuth, async (req, res, next) => {
   }
 });
 
-// router.post("/connection", uath.checkAuth, async (req, res) => {
-//   if (req.body == undefined) {
-//     res.status(500).send({ error: " not found req.query" });
-//   } else {
-//     const params = [
-//       req.body.source,
-//       req.body.target,
-//       req.body.pdfId,
-//       req.body.bookmarked,
-//     ];
-//     let result = await fileDTO.createConnection(params);
-//     res.status(200).send(result);
-//   }
-// });
+router.post("/bookmark/connection", uath.checkAuth, async (req, res) => {
+  if (req.body == undefined) {
+    res.status(500).send({ error: " not found req.query" });
+  } else {
+    const params = [req.body.source, req.body.target, req.body.pdfId];
+    let result = await fileDTO.createConnection(params);
+    res.status(200).send(result);
+  }
+});
 
 router.get("/custom", uath.checkAuth, async (req, res, next) => {
   if (req.query == undefined) {

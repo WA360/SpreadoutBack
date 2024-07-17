@@ -81,7 +81,7 @@ async function updateBookmark(params) {
 }
 
 async function createConnection(params) {
-  let sql = `insert into api_pageconnection(source, target, pdf_file_id, bookmarked) values(?,?,?,?);`;
+  let sql = `insert into api_pageconnection(source, target, pdf_file_id, bookmarked) values(?,?,?,1);`;
   try {
     const [rows, fields] = await connection.query(sql, params);
     return rows;

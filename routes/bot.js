@@ -15,18 +15,19 @@ router.post("/session", async (req, res, next) => {
   }
 });
 
-router.get("/session/detail", uath.checkAuth, async (req, res, next) => {
+router.get("/session/detail", async (req, res, next) => {
   let params = [req.query.chapterId];
   try {
     let result = await botDTO.selectSessionDetail(params);
-    res.status(200).send({ message: result });
+    res.status(200).json({ message: result });
   } catch (error) {
     res.status(500).send({ message: error });
   }
 });
 
-router.put("/session/detail", uath.checkAuth, async (req, res, next) => {
+router.put("/session/detail", async (req, res, next) => {
   let params = [req.body.content, req.body.chapterId];
+  console.log(params);
   try {
     let result = await botDTO.updateSessionDetail(params);
     res.status(200).send({ message: result });
