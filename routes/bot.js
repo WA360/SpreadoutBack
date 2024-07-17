@@ -9,7 +9,7 @@ router.post("/session", async (req, res, next) => {
     let result = await botDTO.createNewSession(params);
     params = [result.insertId, req.body.chapterId, req.body.chapterId];
     let result2 = await botDTO.createNewSessionLinks(params);
-    res.status(200).send({ sessionId: result2.insertId });
+    res.status(200).send({ sessionId: result.insertId });
   } catch (error) {
     res.status(501).send({ message: error });
   }
