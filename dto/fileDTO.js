@@ -91,7 +91,7 @@ async function createConnection(params) {
 }
 
 async function createCustomConnection(params) {
-  let sql = `insert into api_customeconnection (source, target, pdf_file_id, user_id) values(?,?,?,?);`;
+  let sql = `insert into api_customeconnection (source, target, pdf_file_id, user_id,name) values(?,?,?,?,?);`;
   try {
     const [rows, fields] = await connection.query(sql, params);
     return rows;

@@ -191,8 +191,8 @@ router.post("/custom/connection", uath.checkAuth, async (req, res) => {
       req.body.source,
       req.body.target,
       req.body.pdfId,
-      req.body.connName,
       req.user.uuid,
+      req.body.connName,
     ];
     let result = await fileDTO.createCustomConnection(params);
     res.status(200).send(result);
