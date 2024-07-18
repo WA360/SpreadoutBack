@@ -118,7 +118,12 @@ router.put("/bookmark", uath.checkAuth, async (req, res, next) => {
 });
 
 router.post("/bookmark/connection", uath.checkAuth, async (req, res) => {
-  if (req.body.source == undefined) {
+  if (
+    req.body.source == undefined ||
+    req.body.source == undefined ||
+    req.body.pdfId == undefined
+  ) {
+    console.log(req.body);
     res.status(500).send({ error: " not found req.query" });
   } else {
     const params = [req.body.source, req.body.target, req.body.pdfId];
