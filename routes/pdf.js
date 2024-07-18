@@ -118,7 +118,7 @@ router.put("/bookmark", uath.checkAuth, async (req, res, next) => {
 });
 
 router.post("/bookmark/connection", uath.checkAuth, async (req, res) => {
-  if (req.body == undefined) {
+  if (req.body.source == undefined) {
     res.status(500).send({ error: " not found req.query" });
   } else {
     const params = [req.body.source, req.body.target, req.body.pdfId];
