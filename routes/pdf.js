@@ -84,8 +84,8 @@ router.get("/", async (req, res, next) => {
         url: url[0].url,
         nodes: nodes,
         links: links,
-        session_nodes: [],
-        session_links: [],
+        session_nodes: session_nodes,
+        session_links: session_links,
       };
       res.status(200).send(result);
     } else {
