@@ -31,7 +31,7 @@ async function readPdfUrl(params) {
 }
 
 async function readPdfNode(params) {
-  let sql = `select * from api_chapter ac where ac.pdf_file_id =?;`;
+  let sql = `select ac.id, ac.name, ac.start_page, ac.end_page, ac.level, ac.bookmarked, ac.group, ac.pdf_file_id, ac.summary, ac.keywords, ap.filename from api_chapter ac left join api_pdffile ap ON ac.pdf_file_id=ap.id where ac.pdf_file_id =?;`;
   try {
     const [rows, fields] = await connection.query(sql, params);
     return rows;
