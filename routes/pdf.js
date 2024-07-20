@@ -41,52 +41,63 @@ router.get("/", async (req, res, next) => {
     let url = await fileDTO.readPdfUrl(params);
     let session_nodes = [];
     let session_links = [];
-    let lastnum = nodes[nodes.length - 1].id;
     let nodelen = nodes.length;
-    for (let i = 0; i < nodelen; i++) {
-      let arr = JSON.parse(nodes[i].keywords);
-      // console.log("nodes" + i + ": ", nodes[i]);
-      // console.log("arr: ", arr);
+    if (nodelen > 0) {
+      let lastnum = nodes[nodes.length - 1].id;
+      for (let i = 0; i < nodelen; i++) {
+        let arr = JSON.parse(nodes[i].keywords);
+        // console.log("nodes" + i + ": ", nodes[i]);
+        // console.log("arr: ", arr);
 
-      if (arr != null) {
-        for (let j = 0; j < arr.length; j++) {
-          lastnum++;
-          session_nodes.push({
-            id: lastnum,
-            name: arr[j],
-            start_page: 0,
-            end_page: 0,
-            level: 10,
-            bookmarked: 0,
-            group: nodes[i].group,
-            pdf_file_id: nodes[i].pdf_file_id,
-            summary: null,
-            keywords: null,
-          });
-          session_links.push({
-            id: 0,
-            similarity: 1,
-            source: lastnum,
-            target: nodes[i].id,
-            pdf_file_id: nodes[i].pdf_file_id,
-            bookmarked: 0,
-          });
+        if (arr != null) {
+          for (let j = 0; j < arr.length; j++) {
+            lastnum++;
+            session_nodes.push({
+              id: lastnum,
+              name: arr[j],
+              start_page: 0,
+              end_page: 0,
+              level: 10,
+              bookmarked: 0,
+              group: nodes[i].group,
+              pdf_file_id: nodes[i].pdf_file_id,
+              summary: null,
+              keywords: null,
+            });
+            session_links.push({
+              id: 0,
+              similarity: 1,
+              source: lastnum,
+              target: nodes[i].id,
+              pdf_file_id: nodes[i].pdf_file_id,
+              bookmarked: 0,
+            });
+          }
         }
       }
-    }
 
-    if (!url.length > 0) {
-      res.status(400).send({ result: "해당 번호 결과 없음" });
-      return;
+      if (!url.length > 0) {
+        res.status(400).send({ result: "해당 번호 결과 없음" });
+        return;
+      }
+      let result = {
+        url: url[0].url,
+        nodes: nodes,
+        links: links,
+        session_nodes: [],
+        session_links: [],
+      };
+      res.status(200).send(result);
+    } else {
+      let result = {
+        url: null,
+        nodes: [],
+        links: [],
+        session_nodes: [],
+        session_links: [],
+      };
+      res.status(200).send(result);
     }
-    let result = {
-      url: url[0].url,
-      nodes: nodes,
-      links: links,
-      session_nodes: [],
-      session_links: [],
-    };
-    res.status(200).send(result);
   }
 });
 
