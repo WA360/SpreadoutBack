@@ -120,6 +120,16 @@ async function readCustomConnectionDetail(params) {
   }
 }
 
+async function selectcircle(params) {
+  let sql = `select ac.keywords from api_chapter ac where ac.pdf_file_id =?;`;
+  try {
+    const [rows, fields] = await connection.query(sql, params);
+    return rows;
+  } catch (error) {
+    throw error;
+  }
+}
+
 module.exports = {
   insertPdfInfo,
   readPdfInfo,
@@ -133,4 +143,5 @@ module.exports = {
   createCustomConnection,
   readCustomConnection,
   readCustomConnectionDetail,
+  selectcircle,
 };
