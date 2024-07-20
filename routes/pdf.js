@@ -45,9 +45,10 @@ router.get("/", async (req, res, next) => {
       let arr = JSON.parse(nodes[i].keywords);
       // console.log("nodes" + i + ": ", nodes[i]);
       // console.log("arr: ", arr);
-      lastnum++;
+
       if (arr != null) {
         for (let j = 0; j < arr.length; j++) {
+          lastnum++;
           nodes.push({
             id: lastnum,
             name: arr[j],
