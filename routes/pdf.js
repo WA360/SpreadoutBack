@@ -46,27 +46,29 @@ router.get("/", async (req, res, next) => {
       // console.log("nodes" + i + ": ", nodes[i]);
       // console.log("arr: ", arr);
       lastnum++;
-      for (let j = 0; j < arr.length; j++) {
-        nodes.push({
-          id: lastnum,
-          name: arr[j],
-          start_page: 0,
-          end_page: 0,
-          level: 10,
-          bookmarked: 0,
-          group: nodes[i].group,
-          pdf_file_id: nodes[i].pdf_file_id,
-          summary: null,
-          keywords: null,
-        });
-        links.push({
-          id: 0,
-          similarity: 1,
-          source: lastnum,
-          target: nodes[i].id,
-          pdf_file_id: nodes[i].pdf_file_id,
-          bookmarked: 0,
-        });
+      if (arr != null) {
+        for (let j = 0; j < arr.length; j++) {
+          nodes.push({
+            id: lastnum,
+            name: arr[j],
+            start_page: 0,
+            end_page: 0,
+            level: 10,
+            bookmarked: 0,
+            group: nodes[i].group,
+            pdf_file_id: nodes[i].pdf_file_id,
+            summary: null,
+            keywords: null,
+          });
+          links.push({
+            id: 0,
+            similarity: 1,
+            source: lastnum,
+            target: nodes[i].id,
+            pdf_file_id: nodes[i].pdf_file_id,
+            bookmarked: 0,
+          });
+        }
       }
     }
 
