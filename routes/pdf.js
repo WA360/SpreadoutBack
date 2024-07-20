@@ -39,6 +39,8 @@ router.get("/", async (req, res, next) => {
     let nodes = await fileDTO.readPdfNode(params);
     let links = await fileDTO.readPdfInfo(params);
     let url = await fileDTO.readPdfUrl(params);
+    let session_nodes = [];
+    let session_links = [];
     let lastnum = nodes[nodes.length - 1].id;
     let nodelen = nodes.length;
     for (let i = 0; i < nodelen; i++) {
@@ -49,7 +51,7 @@ router.get("/", async (req, res, next) => {
       if (arr != null) {
         for (let j = 0; j < arr.length; j++) {
           lastnum++;
-          nodes.push({
+          session_nodes.push({
             id: lastnum,
             name: arr[j],
             start_page: 0,
@@ -61,7 +63,7 @@ router.get("/", async (req, res, next) => {
             summary: null,
             keywords: null,
           });
-          links.push({
+          session_links.push({
             id: 0,
             similarity: 1,
             source: lastnum,
