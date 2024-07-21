@@ -36,15 +36,36 @@ router.get("/", async (req, res, next) => {
     res.status(500).send({ error: "not found req.body" });
   } else {
     const params = [req.query.pdfId];
-    let nodes = await fileDTO.readPdfNode(params);
+    let oldnodes = await fileDTO.readPdfNode(params);
+    let nodes = [];
     let links = await fileDTO.readPdfInfo(params);
     let url = await fileDTO.readPdfUrl(params);
     let session_nodes = [];
     let session_links = [];
-    let nodelen = nodes.length;
+    let nodelen = oldnodes.length;
     if (nodelen > 0) {
-      let lastnum = nodes[nodes.length - 1].id;
-      for (let i = 0; i < nodelen; i++) {
+      // 필요없는 노드 제거
+      let nodeFillter = [];
+      for (let i = 0; i < links.length; i++) {
+        nodeFillter.push(links[i].source);
+      }
+      console.log("nodeFillter:", nodeFillter);
+      nodeFillter = [...new Set(nodeFillter)];
+      for (let i = 0; i < oldnodes.length; i++) {
+        if (
+          nodeFillter.includes(oldnodes[i].id) ||
+          oldnodes[i].level > 1 ||
+          oldnodes[i].name.includes("서문") ||
+          oldnodes[i].name.includes("프롤로그") ||
+          oldnodes[i].name.includes("에필로그")
+        ) {
+          nodes.push(oldnodes[i]);
+        }
+      }
+      console.log(nodes);
+      // 키워드 추가
+      let lastnum = oldnodes[oldnodes.length - 1].id;
+      for (let i = 0; i < nodes.length; i++) {
         let arr = JSON.parse(nodes[i].keywords);
         // console.log("nodes" + i + ": ", nodes[i]);
         // console.log("arr: ", arr);
