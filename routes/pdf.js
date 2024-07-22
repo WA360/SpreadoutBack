@@ -49,7 +49,6 @@ router.get("/", async (req, res, next) => {
       for (let i = 0; i < links.length; i++) {
         nodeFillter.push(links[i].source);
       }
-      console.log("nodeFillter:", nodeFillter);
       nodeFillter = [...new Set(nodeFillter)];
       for (let i = 0; i < oldnodes.length; i++) {
         if (
@@ -62,7 +61,6 @@ router.get("/", async (req, res, next) => {
           nodes.push(oldnodes[i]);
         }
       }
-      console.log(nodes);
       // 키워드 추가
       let lastnum = oldnodes[oldnodes.length - 1].id;
       for (let i = 0; i < nodes.length; i++) {
@@ -146,8 +144,13 @@ router.get("/bookmark", uath.checkAuth, async (req, res, next) => {
     let url = await fileDTO.readPdfUrl(params);
     let nodes = await fileDTO.getBookmark(params);
     let links = await fileDTO.getBookmarkConnect(params);
+    if (url.length > 0) {
+      url = url[0].url;
+    } else {
+      url = null;
+    }
     let result = {
-      url: url[0].url,
+      url: url,
       nodes: nodes,
       links: links,
     };
