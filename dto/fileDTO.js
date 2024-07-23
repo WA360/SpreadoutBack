@@ -90,6 +90,16 @@ async function createConnection(params) {
   }
 }
 
+async function deleteConnection(params) {
+  let sql = `delete from api_pageconnection ap where ap.id=?;`;
+  try {
+    const [rows, fields] = await connection.query(sql, params);
+    return rows;
+  } catch (error) {
+    throw error;
+  }
+}
+
 async function createCustomConnection(params) {
   let sql = `insert into api_customeconnection (source, target, pdf_file_id, user_id,name) values(?,?,?,?,?);`;
   try {
@@ -140,6 +150,7 @@ module.exports = {
   updateBookmark,
   getBookmarkConnect,
   createConnection,
+  deleteConnection,
   createCustomConnection,
   readCustomConnection,
   readCustomConnectionDetail,
