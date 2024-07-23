@@ -61,39 +61,39 @@ router.get("/", async (req, res, next) => {
           nodes.push(oldnodes[i]);
         }
       }
-      // 키워드 추가
-      let lastnum = oldnodes[oldnodes.length - 1].id;
-      for (let i = 0; i < nodes.length; i++) {
-        let arr = JSON.parse(nodes[i].keywords);
-        // console.log("nodes" + i + ": ", nodes[i]);
-        // console.log("arr: ", arr);
+      // // 키워드 추가
+      // let lastnum = oldnodes[oldnodes.length - 1].id;
+      // for (let i = 0; i < nodes.length; i++) {
+      //   let arr = JSON.parse(nodes[i].keywords);
+      //   // console.log("nodes" + i + ": ", nodes[i]);
+      //   // console.log("arr: ", arr);
 
-        if (arr != null) {
-          for (let j = 0; j < arr.length; j++) {
-            lastnum++;
-            session_nodes.push({
-              id: lastnum,
-              name: arr[j],
-              start_page: 0,
-              end_page: 0,
-              level: 10,
-              bookmarked: 0,
-              group: nodes[i].group,
-              pdf_file_id: nodes[i].pdf_file_id,
-              summary: null,
-              keywords: null,
-            });
-            session_links.push({
-              id: 0,
-              similarity: 1,
-              source: lastnum,
-              target: nodes[i].id,
-              pdf_file_id: nodes[i].pdf_file_id,
-              bookmarked: 0,
-            });
-          }
-        }
-      }
+      //   if (arr != null) {
+      //     for (let j = 0; j < arr.length; j++) {
+      //       lastnum++;
+      //       session_nodes.push({
+      //         id: lastnum,
+      //         name: arr[j],
+      //         start_page: 0,
+      //         end_page: 0,
+      //         level: 10,
+      //         bookmarked: 0,
+      //         group: nodes[i].group,
+      //         pdf_file_id: nodes[i].pdf_file_id,
+      //         summary: null,
+      //         keywords: null,
+      //       });
+      //       session_links.push({
+      //         id: 0,
+      //         similarity: 1,
+      //         source: lastnum,
+      //         target: nodes[i].id,
+      //         pdf_file_id: nodes[i].pdf_file_id,
+      //         bookmarked: 0,
+      //       });
+      //     }
+      //   }
+      // }
 
       if (!url.length > 0) {
         res.status(400).send({ result: "해당 번호 결과 없음" });
@@ -147,39 +147,39 @@ router.get("/bookmark", uath.checkAuth, async (req, res, next) => {
     let nodes = await fileDTO.getBookmark(params);
 
     let links = await fileDTO.getBookmarkConnect(params);
-    // 키워드 추가
-    let lastnum = nodes[nodes.length - 1].id;
-    for (let i = 0; i < nodes.length; i++) {
-      let arr = JSON.parse(nodes[i].keywords);
-      // console.log("nodes" + i + ": ", nodes[i]);
-      // console.log("arr: ", arr);
+    // // 키워드 추가
+    // let lastnum = nodes[nodes.length - 1].id;
+    // for (let i = 0; i < nodes.length; i++) {
+    //   let arr = JSON.parse(nodes[i].keywords);
+    //   // console.log("nodes" + i + ": ", nodes[i]);
+    //   // console.log("arr: ", arr);
 
-      if (arr != null) {
-        for (let j = 0; j < arr.length; j++) {
-          lastnum++;
-          session_nodes.push({
-            id: lastnum,
-            name: arr[j],
-            start_page: 0,
-            end_page: 0,
-            level: 10,
-            bookmarked: 0,
-            group: nodes[i].group,
-            pdf_file_id: nodes[i].pdf_file_id,
-            summary: null,
-            keywords: null,
-          });
-          session_links.push({
-            id: 0,
-            similarity: 1,
-            source: lastnum,
-            target: nodes[i].id,
-            pdf_file_id: nodes[i].pdf_file_id,
-            bookmarked: 0,
-          });
-        }
-      }
-    }
+    //   if (arr != null) {
+    //     for (let j = 0; j < arr.length; j++) {
+    //       lastnum++;
+    //       session_nodes.push({
+    //         id: lastnum,
+    //         name: arr[j],
+    //         start_page: 0,
+    //         end_page: 0,
+    //         level: 10,
+    //         bookmarked: 0,
+    //         group: nodes[i].group,
+    //         pdf_file_id: nodes[i].pdf_file_id,
+    //         summary: null,
+    //         keywords: null,
+    //       });
+    //       session_links.push({
+    //         id: 0,
+    //         similarity: 1,
+    //         source: lastnum,
+    //         target: nodes[i].id,
+    //         pdf_file_id: nodes[i].pdf_file_id,
+    //         bookmarked: 0,
+    //       });
+    //     }
+    //   }
+    // }
     if (url.length > 0) {
       url = url[0].url;
     } else {
