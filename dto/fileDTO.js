@@ -11,7 +11,7 @@ async function insertPdfInfo(params) {
 }
 
 async function readPdfInfo(params) {
-  let sql = `select * from api_pageconnection ap where ap.pdf_file_id = ?;`;
+  let sql = `select * from api_pageconnection ap where ap.pdf_file_id = ? AND  bookmarked = 0;`;
   try {
     const [rows, fields] = await connection.query(sql, params);
     return rows;
