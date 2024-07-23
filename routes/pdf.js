@@ -61,6 +61,9 @@ router.get("/", async (req, res, next) => {
           nodes.push(oldnodes[i]);
         }
       }
+      for (let i = 0; i < nodes.length; i++) {
+        nodes[i].keywords = JSON.parse(nodes[i].keywords);
+      }
       // // 키워드 추가
       // let lastnum = oldnodes[oldnodes.length - 1].id;
       // for (let i = 0; i < nodes.length; i++) {
@@ -147,6 +150,9 @@ router.get("/bookmark", uath.checkAuth, async (req, res, next) => {
     let nodes = await fileDTO.getBookmark(params);
 
     let links = await fileDTO.getBookmarkConnect(params);
+    for (let i = 0; i < nodes.length; i++) {
+      nodes[i].keywords = JSON.parse(nodes[i].keywords);
+    }
     // // 키워드 추가
     // let lastnum = nodes[nodes.length - 1].id;
     // for (let i = 0; i < nodes.length; i++) {
