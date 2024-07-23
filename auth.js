@@ -32,7 +32,7 @@ function makeToken(tokenInfo) {
     uuid: tokenInfo[0].uuid,
   };
   return (token = jwt.sign(payload, process.env.ACCESS_TOKEN_SECRET, {
-    expiresIn: "150m",
+    expiresIn: "150h",
   }));
 }
 
