@@ -12,7 +12,7 @@ function checkAuth(req, res, next) {
   }
   // console.log("ht: ", token);
   if (!token) {
-    return res.status(401).send("인증 토큰이 없습니다.");
+    return res.status(401).send({result:"인증 토큰이 없습니다."});
     z;
   }
 
